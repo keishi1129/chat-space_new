@@ -1,0 +1,11 @@
+.message{"data-message-id": "#{message.id}"}
+  .message__upper-info
+    %p.message__upper-info__user-name 
+      = message.user.name
+    %p.message__upper-info__date
+      = message.created_at.to_s
+  - if message.content.present?
+    %p.message__text
+      = message.content
+  = image_tag message.image.url, class: 'message__image' if message.image.present?
+  
