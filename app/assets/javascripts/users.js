@@ -35,7 +35,7 @@ $(function(){
   }
 
   $('#user-search-field').on("keyup", function(e){
-    let input = $('#user-search-field').val();  //フォームの値を取得して変数に代入する
+    let input = $('#user-search-field').val(); 
     $.ajax({
       type: "GET",
       url: "/users",
