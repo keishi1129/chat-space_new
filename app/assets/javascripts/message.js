@@ -44,8 +44,9 @@ $(function(){
     })
     .done(function(message){
       appendMessage(message);
-      $("#message_content").val("");
-      $("#message_image").val("");
+      $('#new_message').reset();
+      // $("#message_content").val("");
+      // $("#message_image").val("");
       scrollBottom();
     })
     .fail(function(){
