@@ -43,7 +43,6 @@ $(document).on('turbolinks:load', function(){
       dataType: "json"
     })
     .done(function(users){
-      console.log(users);
       search_list.empty();
       if (users.length !== 0) {
         users.forEach(function(user){
@@ -60,7 +59,7 @@ $(document).on('turbolinks:load', function(){
     })
   });
 
-  $(document).on("click", ".user-search-add", function() {
+  $(".chat-group-form").on("click",".user-search-add", function() {
     const userName = $(this).attr("data-user-name");
     const userId = $(this).attr("data-user-id");
     console.log(userId);
@@ -70,7 +69,7 @@ $(document).on('turbolinks:load', function(){
     addDeleteUser(userName, userId);
     addMember(userId);
   });
-  $(document).on("click", ".chat-group-user-remove", function() {
+  $(".chat-group-form").on("click",".chat-group-user-remove", function() {
     $(this)
       .parent()
       .remove();
