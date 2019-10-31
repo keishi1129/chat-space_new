@@ -29,11 +29,11 @@ $(document).on('turbolinks:load', function(){
   }
 
 
-
-  $('#new_message').on('submit', function(e){
+$('#new_message').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
     var url = $(this).attr('action');
+    clickFlag = false;
     $.ajax({
       url: url,
       type: "POST",
@@ -43,18 +43,24 @@ $(document).on('turbolinks:load', function(){
       contentType: false
     })
     .done(function(message){
-      appendMessage(message);
-      $('#new_message')[0].reset();
-      scrollBottom();
+      if (message.id !== null){
+        console.log(message)
+        appendMessage(message);
+        $("#message_content").val("");
+        scrollBottom();
+        $("#message_image").val("");
+      } else {
+        alert('メッセージを入力してください')
+      }
     })
     .fail(function(){
-      alert('error');
+      alert('エラー');
     })
-    .always(() => {
-      $(".new_message__submit").removeAttr("disabled");
-      });
-  })
-
+    .always(function(){
+      $(".new_message__submit").prop("disabled", false);
+    })
+  });
+   
   var reloadMessages = setInterval(function() {
     if (window.location.href.match(/\/groups\/\d+\/messages/)){
       last_message_id = $('.message:last').data("message-id");
