@@ -23,9 +23,10 @@ $(document).on('turbolinks:load', function(){
 
   function addDeleteUser(name, id) {
     let html = `
-    <div class="chat-group-user clearfix" id="${id}">
+    <div class="chat-group-user clearfix">
       <p class="chat-group-user__name">${name}</p>
       <a class="chat-group-user-remove chat-group-user__btn chat-group-user__btn--remove" data-user-id="${id}" data-user-name="${name}">削除</a>
+      <input type="hidden" name="group[user_ids][]" class="user-id" value="${id}">
     </div>`;
     $(".js-add-user").append(html);
   }
@@ -36,10 +37,15 @@ $(document).on('turbolinks:load', function(){
 
   $('#user-search-field').on("keyup", function(e){
     let input = $('#user-search-field').val(); 
+    userIds = []
+    $('.user-id').map(function(){
+      userId = $(this).val();
+      userIds.push(userId);
+    });
     $.ajax({
       type: "GET",
       url: "/users",
-      data: { keyword: input },
+      data: { keyword: input, userIds: userIds},
       dataType: "json"
     })
     .done(function(users){
@@ -60,12 +66,10 @@ $(document).on('turbolinks:load', function(){
   });
 
   $(".chat-group-form").on("click",".user-search-add", function() {
+    $('#user-search-field').reset; 
     const userName = $(this).attr("data-user-name");
     const userId = $(this).attr("data-user-id");
-    console.log(userId);
-    $(this)
-      .parent()
-      .remove();
+    $(this).parent().remove();
     addDeleteUser(userName, userId);
     addMember(userId);
   });
